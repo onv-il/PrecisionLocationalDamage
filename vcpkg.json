@@ -1,0 +1,17 @@
+{
+    "name":  "precisionlocationaldamage",
+    "version-string":  "1.0.0",
+    "description":  "",
+    "license":  "MIT",
+    "dependencies":  [
+                         "boost-algorithm",
+                         "rapidxml",
+                         "spdlog",
+                         "yaml-cpp"
+                     ],
+    "features":  {
+                     "mo2-install":  {
+                                         "description":  "Precision Locational Damage"
+                                     }
+                 }
+}
