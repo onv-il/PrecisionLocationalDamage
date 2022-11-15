@@ -88,7 +88,7 @@ namespace LocationalDamageHandler
 					return;
 				if (!isCriticalHit && hitEffect.spellOnlyCriticalHits)
 					return;
-				if (find(hitEffect.nodeNames.begin(), hitEffect.nodeNames.end(), hitRigidBodyName) == hitEffect.nodeNames.end())
+				if (!hitRigidBodyName.empty() && find(hitEffect.nodeNames.begin(), hitEffect.nodeNames.end(), hitRigidBodyName) == hitEffect.nodeNames.end())
 					return;
 				if (weapon && !hitEffect.weaponKeywords.empty() && !weapon->HasKeywordInArray(hitEffect.weaponKeywords, false))
 					return;
