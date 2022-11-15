@@ -30,6 +30,7 @@ namespace LocationalDamageHandler
 
 		newModifier.modifierOperation = PRECISION_API::PreHitModifier::ModifierOperation::Multiplicative;
 		newModifier.modifierType = PRECISION_API::PreHitModifier::ModifierType::Damage;
+		newModifier.modifierValue = 1.0f;
 
 		for (auto& hitEffect : g_hitEffectVector) {
 			[&] {
@@ -40,6 +41,8 @@ namespace LocationalDamageHandler
 					newModifier.modifierValue = hitEffect.damageMult;
 			}();
 		}
+
+		INFO(newModifier.modifierValue)
 
 		ret.modifiers.push_back(newModifier);
 
@@ -85,9 +88,9 @@ namespace LocationalDamageHandler
 					return;
 				if (!isCriticalHit && hitEffect.spellOnlyCriticalHits)
 					return;
-				if (!hitEffect.weaponKeywords.empty() && !weapon->HasKeywordInArray(hitEffect.weaponKeywords, false))
-					return;
 				if (find(hitEffect.nodeNames.begin(), hitEffect.nodeNames.end(), hitRigidBodyName) == hitEffect.nodeNames.end())
+					return;
+				if (weapon && !hitEffect.weaponKeywords.empty() && !weapon->HasKeywordInArray(hitEffect.weaponKeywords, false))
 					return;
 
 				if (hitEffect.spellForm)
@@ -98,7 +101,7 @@ namespace LocationalDamageHandler
 
 	void Initialize() {
 		auto precisionInterface = reinterpret_cast<PRECISION_API::IVPrecision3*>(PRECISION_API::RequestPluginAPI(PRECISION_API::InterfaceVersion::V3));
-
+		
 		auto preHitResult = precisionInterface->AddPreHitCallback(SKSE::GetPluginHandle(), OnPrecisionPreHit);
 		if (preHitResult == PRECISION_API::APIResult::OK || preHitResult == PRECISION_API::APIResult::AlreadyRegistered) {
 			INFO("precision pre hit callback registered");

@@ -38,7 +38,12 @@ namespace Settings {
 
 						RE::BGSKeyword* newKeyword = dataHandler->LookupForm(formID, pluginName)->As<RE::BGSKeyword>();
 
-						newHitEffect.weaponKeywords.push_back(newKeyword);
+						if (newKeyword) {
+							newHitEffect.weaponKeywords.push_back(newKeyword);
+						} else {
+							WARN("could not get keyword from {}", input)
+						}
+						
 					}
 
 				} else {
@@ -55,7 +60,11 @@ namespace Settings {
 
 					RE::BGSKeyword* newKeyword = dataHandler->LookupForm(formID, pluginName)->As<RE::BGSKeyword>();
 
-					newHitEffect.weaponKeywords.push_back(newKeyword);
+					if (newKeyword) {
+						newHitEffect.weaponKeywords.push_back(newKeyword);
+					} else {
+						WARN("could not get keyword from {}", input)
+					}
 				}
 			}
 
@@ -73,7 +82,12 @@ namespace Settings {
 
 				RE::SpellItem* newSpellItem = dataHandler->LookupForm(formID, pluginName)->As<RE::SpellItem>();
 
-				newHitEffect.spellForm = newSpellItem;
+				if (newSpellItem) {
+					newHitEffect.spellForm = newSpellItem;
+				} else {
+					WARN("could not get spell from {}", input)
+				}
+				
 			}
 
 			if (element.contains("spellOnlyCriticalHits")) {
