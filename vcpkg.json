@@ -2,7 +2,7 @@
     "name":  "precisionlocationaldamage",
     "version-string":  "1.1.1",
     "description":  "",
-    "license":  "MIT",
+    "license":  "LGPL-2.1",
     "dependencies":  [
                          "boost-algorithm",
                          "rapidxml",
