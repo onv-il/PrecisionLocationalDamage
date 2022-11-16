@@ -1,6 +1,6 @@
 {
     "name":  "precisionlocationaldamage",
-    "version-string":  "1.1.1",
+    "version-string":  "1.1.2",
     "description":  "",
     "license":  "LGPL-2.1",
     "dependencies":  [

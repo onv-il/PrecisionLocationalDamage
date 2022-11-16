@@ -10,8 +10,13 @@ namespace LocationalDamageHandler
 		PRECISION_API::PreHitCallbackReturn ret;
 
 		RE::TESObjectREFR* target = a_precisionHitData.target;
+		RE::hkpRigidBody* hitRigidBody = a_precisionHitData.hitRigidBody;
 
 		if (!target) {
+			return ret;
+		}
+
+		if (!hitRigidBody) {
 			return ret;
 		}
 
@@ -23,7 +28,12 @@ namespace LocationalDamageHandler
 			return ret;
 		}
 
-		RE::hkpRigidBody* hitRigidBody = a_precisionHitData.hitRigidBody;
+		//ctds happen if we expect the node to have a name by default
+		//plus the entire mechanic kind of hinges on nodes having a name
+		if (!hitRigidBody->name.data()) {
+			return ret;
+		}
+
 		std::string hitRigidBodyName = hitRigidBody->name.data();
 
 		PRECISION_API::PreHitModifier newModifier;
@@ -42,8 +52,6 @@ namespace LocationalDamageHandler
 			}();
 		}
 
-		INFO(newModifier.modifierValue)
-
 		ret.modifiers.push_back(newModifier);
 
 		return ret;
@@ -52,8 +60,13 @@ namespace LocationalDamageHandler
 	void OnPrecisionPostHit(const PRECISION_API::PrecisionHitData& a_precisionHitData, const RE::HitData& a_vanillaHitData)
 	{
 		RE::TESObjectREFR* target = a_precisionHitData.target;
+		RE::hkpRigidBody* hitRigidBody = a_precisionHitData.hitRigidBody;
 
 		if (!target) {
+			return;
+		}
+
+		if (!hitRigidBody) {
 			return;
 		}
 
@@ -64,12 +77,12 @@ namespace LocationalDamageHandler
 		if (target->IsDead()) {
 			return;
 		}
-		
-		if (a_vanillaHitData.flags.any(RE::HitData::Flag::kBash)) {
+
+		//ditto
+		if (!hitRigidBody->name.data()) {
 			return;
 		}
 
-		RE::hkpRigidBody* hitRigidBody = a_precisionHitData.hitRigidBody;
 		std::string hitRigidBodyName = hitRigidBody->name.data();
 
 		bool isCriticalHit = a_vanillaHitData.flags.any(RE::HitData::Flag::kCritical);
